@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResearchFin – Student Finance Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Research Fin.css">
+</head>
+<body>
+
+<!-- ========== LOGIN ========== -->
+<div id="loginScreen">
+  <div class="loginBox">
+    <h1>Research<span>Fin</span></h1>
+    <p>Student Financial Strategy Advisor · MUJ</p>
+
+    <!-- Auth Tabs -->
+    <div class="authTabs">
+      <button class="authTab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="authTab" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+
+    <!-- ---- LOGIN PANEL ---- -->
+    <form id="panelLogin" onsubmit="doLogin(); return false;">
+      <div class="errMsg" id="errMsg"></div>
+      <div class="okMsg" id="okMsg"></div>
+      <div style="margin-bottom:16px">
+        <label>Select Your Role</label>
+        <div class="roleRow">
+          <div class="roleBtn sel" id="role0" onclick="pickRole(0)"><span class="rIcon">🎓</span>Student</div>
+          <div class="roleBtn" id="role1" onclick="pickRole(1)"><span class="rIcon">👨‍🏫</span>Faculty</div>
+          <div class="roleBtn" id="role2" onclick="pickRole(2)"><span class="rIcon">🏛</span>Admin</div>
+        </div>
+      </div>
+      <label>Full Name</label>
+      <input type="text" id="inName" placeholder="Enter your full name as registered">
+      <label>Registration / Employee ID</label>
+      <input type="text" id="inId" placeholder="Enter your university ID or employee number">
+      <label>Department</label>
+      <input type="text" id="inDept" placeholder="Enter your department name">
+      <label>Password <span style="color:rgba(255,255,255,0.35);font-weight:400">(leave blank to skip — demo mode)</span></label>
+      <input type="password" id="inPass" placeholder="Enter your account password">
+      <button type="submit" class="loginBtn">Enter ResearchFin →</button>
+      <span class="demoLink" onclick="fillDemo()">Use demo credentials →</span>
+    </form>
+
+    <!-- ---- SIGNUP PANEL ---- -->
+    <div id="panelSignup" style="display:none">
+      <div class="errMsg" id="errMsgS"></div>
+      <div class="okMsg" id="okMsgS"></div>
+      <div style="margin-bottom:16px">
+        <label>Select Your Role</label>
+        <div class="roleRow">
+          <div class="roleBtn sel" id="srole0" onclick="pickRoleS(0)"><span class="rIcon">🎓</span>Student</div>
+          <div class="roleBtn" id="srole1" onclick="pickRoleS(1)"><span class="rIcon">👨‍🏫</span>Faculty</div>
+          <div class="roleBtn" id="srole2" onclick="pickRoleS(2)"><span class="rIcon">🏛</span>Admin</div>
+        </div>
+      </div>
+      <label>Full Name</label>
+      <input type="text" id="sName" placeholder="Enter your complete name">
+      <label>Registration / Employee ID</label>
+      <input type="text" id="sId" placeholder="Enter your university registration number">
+      <label>Department</label>
+      <input type="text" id="sDept" placeholder="Enter your academic department">
+      <label>Password</label>
+      <input type="password" id="sPass" placeholder="Create a secure password (min 6 characters)">
+      <label>Confirm Password</label>
+      <input type="password" id="sPass2" placeholder="Re-enter the same password">
+      <button class="loginBtn" onclick="doSignup()">Create Account →</button>
+      <span class="demoLink" onclick="switchAuthTab('login')">Already have an account? Sign in →</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== APP ========== -->
+<div id="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-brand">Research<span>Fin</span></div>
+    <div class="topbar-user">
+      <div class="av" id="topAv">🎓</div>
+      <span class="uname" id="topName">Student</span>
+      <button class="logoutBtn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Nav Tabs -->
+  <div class="navTabs">
+    <button class="navTab active" onclick="showPage('dashboard', this)">🏠 Dashboard</button>
+    <button class="navTab" onclick="showPage('profile', this)">👤 Profile</button>
+    <button class="navTab" onclick="showPage('budget', this)">💸 Budget Planner</button>
+    <button class="navTab" onclick="showPage('funding', this)">🏦 Funding Finder</button> 
+    <button class="navTab" onclick="showPage('tools', this)">🛠 Free Tools</button>
+    <button class="navTab" onclick="showPage('assess', this)">📊 Assessment</button>
+    <button class="navTab" onclick="showPage('cases', this)">📁 Case Studies</button>
+    <button class="navTab" onclick="showPage('strategies', this)">💡 Strategies</button>
+  </div>
+
+  
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="pageDashboard">
+      <div class="pageTitle" id="dashGreet">Welcome 👋</div>
+      <div class="pageSub">Your research finance overview. Use the tools to plan your budget, find funding, and cut costs.</div>
+      <div class="g4" style="margin-bottom:16px">
+        <div class="statCard"><div class="icon">💸</div><div class="val" id="dBudget" style="color:#2563eb">₹0</div><div class="lbl">Budget Planned</div></div>
+        <div class="statCard"><div class="icon">💰</div><div class="val" id="dSavings" style="color:#059669">₹0</div><div class="lbl">Savings Found</div></div>
+        <div class="statCard"><div class="icon">🏦</div><div class="val" style="color:#d97706">20+</div><div class="lbl">Funding Sources</div></div>
+        <div class="statCard"><div class="icon">🛠</div><div class="val" style="color:#0891b2">22</div><div class="lbl">Free Tools</div></div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="cardTitle">📋 Quick Start</div>
+          <div class="cardSub">Steps to manage your research finances</div>
+          <div class="alert aInfo" style="margin-bottom:10px">✅ <b>Step 1 done:</b> You are logged in!</div>
+          <div class="alert aAmber" style="margin-bottom:10px">⏳ <b>Step 2:</b> Plan your budget in Budget Planner</div>
+          <div class="alert aGreen" style="margin-bottom:10px">🎯 <b>Step 3:</b> Find funding sources for your project</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+            <button class="btn btnFull" onclick="showPage('budget', null)">Go to Budget Planner →</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="cardTitle">📰 Key Research Findings</div>
+          <div class="cardSub">From your paper — Strategies for Overcoming Financial Constraints</div>
+          <div class="alert aRed">📌 <b>60–70%</b> of students face financial stress affecting academic performance.</div>
+          <div class="alert aGreen">🎯 Average <b>78% cost reduction</b> across 5 case studies using free tools.</div>
+          <div class="alert aAmber">⚠️ Most students are unaware of <b>AICTE, DST, UGC</b> grants available to them.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cardTitle">📊 Cost Reduction by Strategy — Table 3.3</div>
+        <div class="cardSub">Expected savings per strategy from the report</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+          <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Open Source Tools</span><b style="color:#059669">70–90%</b></div><div class="progWrap"><div class="progBar" style="background:#059669;width:85%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Institutional Mini-Grants</span><b style="color:#2563eb">50%</b></div><div class="progWrap"><div class="progBar" style="background:#2563eb;width:50%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Peer Collaboration</span><b style="color:#0891b2">40%</b></div><div class="progWrap"><div class="progBar" style="background:#0891b2;width:40%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Vendor Partnerships</span><b style="color:#d97706">30%</b></div><div class="progWrap"><div class="progBar" style="background:#d97706;width:30%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Lean Research Design</span><b style="color:#dc2626">20%</b></div><div class="progWrap"><div class="progBar" style="background:#dc2626;width:20%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="pageProfile">
+      <div class="profileHero">
+        <div class="profileAv" id="profAv">🎓</div>
+        <div class="profileName" id="profName">—</div>
+        <div class="profileSub" id="profSub">—</div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="cardTitle">🎓 Academic Details</div>
+          <table class="tbl" style="margin-top:8px">
+            <tbody>
+              <tr><td style="color:#6b7280;width:45%">University</td><td><b>Manipal University Jaipur</b></td></tr>
+              <tr><td style="color:#6b7280">Programme</td><td><b>B.Tech IT</b></td></tr>
+              <tr><td style="color:#6b7280">Course</td><td><b>PBL 4</b></td></tr>
+              <tr><td style="color:#6b7280">Guide</td><td><b>Dr. Shweta Sharma</b></td></tr>
+              <tr><td style="color:#6b7280">Session</td><td><b>2025–26</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="cardTitle">📈 Activity Summary</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:12px">
+            <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Budget Items Added</span><b id="profBI">0</b></div><div class="progWrap"><div class="progBar" id="profBBar" style="background:#2563eb;width:0%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Assessment Complete</span><b id="profAss">Not done</b></div><div class="progWrap"><div class="progBar" id="profABar" style="background:#059669;width:0%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:3px"><span>Case Studies Viewed</span><b id="profCS">0 / 5</b></div><div class="progWrap"><div class="progBar" id="profCBar" style="background:#d97706;width:0%"></div></div></div>
+          </div>
+          <div class="alert aInfo" style="margin-top:16px">💡 Complete the self-assessment to get personalised recommendations.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUDGET PLANNER -->
+    <div class="page" id="pageBudget">
+      <div class="pageTitle">💸 Research Budget Planner</div>
+      <div class="pageSub">Add your project expenses, mark free alternatives, and see instant savings. Based on Table 3.1 of the report.</div>
+      <div class="g2">
+        <div class="card">
+          <div class="cardTitle">Add Expense</div>
+          <div class="cardSub">Fill in each cost item for your project</div>
+          <label>Category</label>
+          <select id="bCat">
+            <option>Materials / Components</option>
+            <option>Software / Licensing</option>
+            <option>Travel / Field Work</option>
+            <option>Documentation / Printing</option>
+            <option>Equipment Access</option>
+            <option>Publication / Dissemination</option>
+            <option>Contingency</option>
+            <option>Other</option>
+          </select>
+          <label>Item Description</label>
+          <input type="text" id="bDesc" placeholder="e.g. Arduino sensors, MATLAB license…">
+          <label>Estimated Cost (₹)</label>
+          <input type="number" id="bCost" placeholder="0" min="0">
+          <label>Free / Open-Source Alternative?</label>
+          <select id="bAlt">
+            <option value="yes">✅ Yes — will use free alternative</option>
+            <option value="partial">🟡 Partial — reduced cost</option>
+            <option value="no">❌ No — must pay full amount</option>
+          </select>
+          <button class="btn btnGreen btnFull" onclick="addBudget()">+ Add to Budget</button>
+        </div>
+        <div>
+          <div class="g2" style="margin-bottom:12px">
+            <div class="statCard"><div class="val" id="totEst" style="color:#dc2626">₹0</div><div class="lbl">Original Total</div></div>
+            <div class="statCard"><div class="val" id="totOpt" style="color:#059669">₹0</div><div class="lbl">Optimised Total</div></div>
+          </div>
+          <div class="card" style="text-align:center;margin-bottom:12px">
+            <div style="font-size:0.72rem;color:#6b7280;margin-bottom:4px">TOTAL SAVINGS</div>
+            <div id="totSave" style="font-size:1.8rem;font-weight:700;color:#2563eb">₹0</div>
+            <div class="progWrap" style="margin:10px 0 4px"><div class="progBar" id="savBar" style="background:#2563eb;width:0%"></div></div>
+            <div id="savPct" style="font-size:0.72rem;color:#6b7280">0% savings with free tools</div>
+          </div>
+          <div class="alert aInfo">💡 Always keep a <b>10–15% contingency reserve</b> in your final budget.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cardTitle">Budget Breakdown</div>
+        <div style="overflow-x:auto;margin-top:12px">
+          <table class="tbl">
+            <thead><tr><th>Category</th><th>Description</th><th>Est. Cost</th><th>Alternative?</th><th>Optimised</th><th></th></tr></thead>
+            <tbody id="budgetBody"><tr><td colspan="6" style="color:#9ca3af;text-align:center;padding:24px">No items added yet. Add your first expense above.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="budgetAdvice"></div>
+    </div>
+
+    <!-- FUNDING FINDER -->
+     <div class="page" id="pageFunding">
+      <div class="pageTitle">🏦 Funding Source Finder</div>
+      <div class="pageSub">20 real funding sources with step-by-step application guidance. Filter by type to find the best fit for your project.</div>
+      <div class="filterRow" id="fundFilters">
+        <button class="filterBtn active" onclick="filterFund('all',this)">All Sources</button>
+        <button class="filterBtn" onclick="filterFund('institutional',this)">🏫 Institutional</button>
+        <button class="filterBtn" onclick="filterFund('government',this)">🏛 Government</button>
+        <button class="filterBtn" onclick="filterFund('ngo',this)">🤝 NGO / CSR</button>
+        <button class="filterBtn" onclick="filterFund('industry',this)">🏢 Industry</button>
+        <button class="filterBtn" onclick="filterFund('competition',this)">🏆 Competitions</button>
+      </div>
+      <div id="fundList"></div>
+    </div> 
+
+    <!-- FREE TOOLS -->
+    <div class="page" id="pageTools">
+      <div class="pageTitle">🛠 Free &amp; Open-Source Tools</div>
+      <div class="pageSub">Replace expensive software with free alternatives. Save up to 90% on software costs. Based on Section 3.5 of the report.</div>
+      <div class="filterRow" id="toolFilters">
+        <button class="filterBtn active" onclick="filterTools('all',this)">All</button>
+        <button class="filterBtn" onclick="filterTools('compute',this)">💻 Computation</button>
+        <button class="filterBtn" onclick="filterTools('design',this)">🎨 Design / CAD</button>
+        <button class="filterBtn" onclick="filterTools('data',this)">📊 Data / Survey</button>
+        <button class="filterBtn" onclick="filterTools('ml',this)">🤖 AI / ML</button>
+        <button class="filterBtn" onclick="filterTools('write',this)">✍ Writing</button>
+        <button class="filterBtn" onclick="filterTools('hardware',this)">🔧 Hardware</button>
+      </div>
+      <div id="toolList"></div>
+    </div>
+
+    <!-- ASSESSMENT -->
+    <div class="page" id="pageAssess">
+      <div class="pageTitle">📊 Financial Constraint Assessment</div>
+      <div class="pageSub">8 questions based on Chapter 2. Find your risk level and get personalised strategy recommendations.</div>
+      <div class="quizWrap">
+        <div class="card" id="quizCard">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.78rem;color:#6b7280">
+            <span>Question <span id="qNum">1</span> of 8</span>
+          </div>
+          <div class="progWrap" style="margin-bottom:20px"><div class="progBar" id="qBar" style="background:#2563eb;width:12.5%"></div></div>
+          <div id="quizBody"></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btnOutline" id="qBack" onclick="qPrev()" style="display:none">← Back</button>
+            <button class="btn" id="qNext" onclick="qNext()">Next →</button>
+          </div>
+        </div>
+        <div id="quizResult" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CASE STUDIES -->
+    <div class="page" id="pageCases">
+      <div class="pageTitle">📁 Case Study Explorer</div>
+      <div class="pageSub">All 5 real case studies from Chapter 4. Click to expand strategies, outcomes, and key lessons.</div>
+      <div class="g3" style="margin-bottom:16px">
+        <div class="statCard"><div class="val" style="color:#059669">78%</div><div class="lbl">Avg. Cost Reduction</div></div>
+        <div class="statCard"><div class="val" style="color:#2563eb">5</div><div class="lbl">Case Studies</div></div>
+        <div class="statCard"><div class="val" style="color:#d97706">₹0</div><div class="lbl">Min. Cost Achieved</div></div>
+      </div>
+      <div id="caseList"></div>
+    </div>
+
+    <!-- STRATEGIES -->
+    <div class="page" id="pageStrategies">
+      <div class="pageTitle">💡 Strategy Framework</div>
+      <div class="pageSub">Complete actionable strategies from Chapter 3 with expected savings and examples.</div>
+      <div id="stratList"></div>
+      <div class="card">
+        <div class="cardTitle">📊 Integrated Cost Optimisation Framework — Table 3.3</div>
+        <div style="overflow-x:auto;margin-top:12px">
+          <table class="tbl">
+            <thead><tr><th>Strategy</th><th>Area</th><th>Savings</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><b>Open Source Tools</b></td><td>Software / Compute</td><td><span class="pill pGreen">70–90%</span></td><td>Python instead of MATLAB</td></tr>
+              <tr><td><b>Institutional Mini-Grant</b></td><td>Hardware</td><td><span class="pill pBlue">50%</span></td><td>Partial component funding</td></tr>
+              <tr><td><b>Peer Collaboration</b></td><td>Testing &amp; Analysis</td><td><span class="pill pTeal">40%</span></td><td>Shared lab time</td></tr>
+              <tr><td><b>Vendor Partnership</b></td><td>Components</td><td><span class="pill pAmber">30%</span></td><td>Donated / discounted parts</td></tr>
+              <tr><td><b>Lean Design (DoE)</b></td><td>Experimentation</td><td><span class="pill pRed">20%</span></td><td>Fewer runs via Taguchi method</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="Research_Fin.js"></script>
+<script src="api.js"></script>
+</body>
+</html>

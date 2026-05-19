@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": "1775397093383",
+      "name": "Shivang Satiya",
+      "regId": "23FE10ITE00261",
+      "dept": "B.Tech IT",
+      "role": 0,
+      "password": "$2b$10$XUy8SOB60OYdO/AKFfVGD.Pd2z8p92GYo6FL1DSWOGfwhyQKEKCUy",
+      "createdAt": "2026-04-05T13:51:33.383Z"
+    },
+    {
+      "id": "1775397480562",
+      "name": "Admin User",
+      "regId": "ADMIN001",
+      "dept": "Administration",
+      "role": 2,
+      "password": "$2b$10$X8AVJ5KBwuI6pjVLJ8Y8q.L5SXME21eFgxGpIn42/uy4xhwYewhVm",
+      "createdAt": "2026-04-05T13:58:00.562Z"
+    },
+    {
+      "id": "1776174579030",
+      "name": "Vishwam Thakur",
+      "regId": "23fe10ite00251",
+      "dept": "B.Tech IT",
+      "role": 0,
+      "password": "$2b$10$BkL25iCsS70kelK9MU/n0Oa8rK.t32VAg8vg08i4FhsO6aFgS7bde",
+      "createdAt": "2026-04-14T13:49:39.031Z"
+    }
+  ],
+  "budgets": [
+    {
+      "userId": "1775397093383",
+      "items": [
+        {
+          "cat": "Software",
+          "desc": "Python libraries",
+          "cost": 0,
+          "alt": "yes"
+        },
+        {
+          "cat": "Materials / Components",
+          "desc": "Arduino sensors",
+          "cost": 1500,
+          "alt": "partial"
+        }
+      ],
+      "savedAt": "2026-04-05T13:54:52.011Z"
+    }
+  ],
+  "assessments": [
+    {
+      "userId": "1775397093383",
+      "score": 18,
+      "level": "High Risk",
+      "answers": [
+        3,
+        3,
+        2,
+        3,
+        2,
+        1,
+        2,
+        2
+      ],
+      "takenAt": "2026-04-05T13:56:45.006Z"
+    }
+  ],
+  "sessions": []
+}
