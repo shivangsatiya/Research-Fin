@@ -27,6 +27,7 @@ financial constraints during research projects.
 
 ## 🗂 Project Structure
 
+```
 Research-Fin/
 ├── Backend/
 │   ├── server.js       ← Node.js + Express API
@@ -39,8 +40,7 @@ Research-Fin/
 │   ├── Research_Fin.js
 │   └── Research Fin.css
 └── README.md
-
----
+```
 
 ## ⚙️ How to Run
 
